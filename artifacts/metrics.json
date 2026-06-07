@@ -9,7 +9,7 @@
   "metadata": {
     "mode": "demo",
     "city": "moscow",
-    "source": "C:\\Users\\kirill.yakupov.000\\Desktop\\NNDL\\data\\processed\\demo_moscow_hourly_demand.csv",
+    "source": "data\\processed\\demo_moscow_hourly_demand.csv",
     "lookback_hours": 48,
     "horizon_hours": 1,
     "future_hours": 336,

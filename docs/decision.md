@@ -10,13 +10,14 @@ Do not continue with the original SubSaver pitch as the main project. SubSaver h
 
 RideFlow NN predicts taxi pickup demand by zone and hour.
 
-The project is built around a real operational dataset and a neural time-series model:
+The final repository is built around a neural time-series model and a reproducible Moscow demo dataset:
 
-- NYC TLC trip records for the official public dataset;
+- synthetic operational-style hourly demand for Moscow zones;
 - Transformer encoder for sequence forecasting;
 - MLP and seasonal naive baselines;
 - weighted loss for high-demand under-forecasting;
-- dashboard/report for pitch demo.
+- dashboard/report for pitch demo;
+- CSV and NYC TLC adapters for future real-data training.
 
 ## Moscow Scope
 
@@ -28,10 +29,10 @@ The project can be done for Moscow if we have a real export from a taxi operator
 - pickup zone or coordinates;
 - optional fare, trip distance, service class, cancellation flag.
 
-If only aggregated public statistics are available, the model cannot honestly be presented as trained on trip-level Moscow taxi demand. The repository therefore includes a Moscow-style offline demo and a CSV adapter, while the defended real-data source remains NYC TLC.
+If only aggregated public statistics are available, the model cannot honestly be presented as trained on trip-level Moscow taxi demand. The repository therefore clearly labels the included Moscow data as synthetic and provides adapters for future real operational data.
 
 ## Defense Logic
 
 For the pitch, phrase it as:
 
-"We train and evaluate the neural forecasting model on public operational taxi trip data from NYC TLC. The same pipeline is deployment-ready for Moscow once a partner provides trip-level pickup logs."
+"We train and evaluate the neural forecasting pipeline on reproducible operational-style Moscow demand data. The same pipeline is ready to retrain on real trip-level order logs once a partner provides them."

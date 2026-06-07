@@ -8,18 +8,18 @@ RideFlow NN predicts pickup demand by zone and hour so vehicles can be positione
 
 ## Slide 2. Data
 
-Primary training dataset:
+Current included training dataset:
 
-- NYC TLC Trip Record Data;
-- latest public 2026 data currently available through April 2026 for a June 2026 pitch;
-- trip-level operational records;
-- pickup timestamp and pickup location ID;
-- millions of real trips, published monthly with delay.
+- reproducible synthetic operational-style hourly demand;
+- twelve Moscow zones;
+- dynamic dates ending at the current Moscow hour;
+- demand patterns for peaks, airports, weekends, and events.
 
-Moscow deployment:
+Real deployment:
 
-- the same pipeline supports Moscow if a partner provides trip-level order logs;
-- offline Moscow demo is used only to show the interface and workflow.
+- the pipeline supports hourly CSV or trip-level partner logs;
+- the model must be retrained on real orders before production use;
+- the demo does not claim that synthetic rows are real taxi orders.
 
 ## Slide 3. Modeling Approach
 

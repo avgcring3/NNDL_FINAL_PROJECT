@@ -6,15 +6,11 @@ Forecast taxi pickup demand for each zone and hour.
 
 The output is the expected number of pickups in the next hour or next several hours.
 
-## Current Public Data
+## Current Included Data
 
-As of June 3, 2026, NYC TLC lists 2026 trip record files through April 2026. TLC publishes monthly trip data with an operational delay, typically around two months.
+The ready-to-run repository includes reproducible synthetic operational-style hourly demand for twelve Moscow zones. This keeps the demo current and makes the complete neural-network workflow runnable without private taxi-order data.
 
-Default real-data source:
-
-```text
-https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2026-04.parquet
-```
+For real-data experiments, the pipeline also supports hourly CSV input and NYC TLC parquet files.
 
 ## Data Contract
 
@@ -24,7 +20,7 @@ Minimum required fields:
 - `pickup_zone_id`;
 - `pickup_zone_name`.
 
-NYC TLC raw parquet files use:
+The optional NYC TLC adapter expects:
 
 - `tpep_pickup_datetime`;
 - `PULocationID`.

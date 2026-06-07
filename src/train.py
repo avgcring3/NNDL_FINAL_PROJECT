@@ -10,7 +10,7 @@ import torch
 from torch.utils.data import DataLoader, TensorDataset
 from tqdm import tqdm
 
-from .config import ARTIFACTS_DIR, PROCESSED_DATA_DIR, REPORTS_DIR, DataConfig, ModelConfig, TrainConfig
+from .config import ARTIFACTS_DIR, PROCESSED_DATA_DIR, PROJECT_ROOT, REPORTS_DIR, DataConfig, ModelConfig, TrainConfig
 from .data import build_hourly_demand, load_hourly_csv, load_trip_data, make_windows, time_split
 from .demo_data import generate_hourly_demo
 from .metrics import metric_bundle
@@ -46,7 +46,7 @@ def build_hourly(args: argparse.Namespace, data_config: DataConfig) -> tuple[pd.
         hourly = generate_hourly_demo(city=args.city, days=args.days, seed=args.seed)
         output = PROCESSED_DATA_DIR / f"demo_{args.city}_hourly_demand.csv"
         hourly.to_csv(output, index=False)
-        return hourly, str(output)
+        return hourly, str(output.relative_to(PROJECT_ROOT))
 
     if args.mode == "csv":
         if not args.input:
