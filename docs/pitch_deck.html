@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RideFlow NN Pitch</title>
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; color: #18202a; background: #eef2f5; }
+    section { min-height: 100vh; display: grid; align-content: center; padding: 56px 8vw; box-sizing: border-box; border-bottom: 1px solid #ccd5dd; background: #ffffff; }
+    section:nth-child(even) { background: #f5f8fb; }
+    h1 { font-size: 58px; margin: 0 0 18px; line-height: 1.05; }
+    h2 { font-size: 42px; margin: 0 0 20px; }
+    p, li { font-size: 24px; line-height: 1.35; max-width: 980px; }
+    ul { margin: 0; padding-left: 28px; }
+    .tag { color: #0f6cbd; font-size: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; max-width: 1120px; }
+    .metric { font-size: 34px; font-weight: 700; color: #0f6cbd; }
+    @media (max-width: 800px) {
+      h1 { font-size: 40px; }
+      h2 { font-size: 32px; }
+      p, li { font-size: 20px; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <section>
+    <div class="tag">NNDL Capstone</div>
+    <h1>RideFlow NN</h1>
+    <p>Neural taxi demand forecasting for better dispatch and city mobility planning.</p>
+  </section>
+  <section>
+    <h2>Problem</h2>
+    <p>Taxi supply is often in the wrong place at the wrong hour. Busy zones get long waits and missed rides, while quiet zones keep drivers idle.</p>
+  </section>
+  <section>
+    <h2>Data</h2>
+    <ul>
+      <li>NYC TLC trip-level operational records.</li>
+      <li>Pickup timestamp and pickup zone ID.</li>
+      <li>Hourly demand aggregated by zone.</li>
+      <li>Moscow deployment supported with partner trip logs.</li>
+    </ul>
+  </section>
+  <section>
+    <h2>Modeling Approach</h2>
+    <ul>
+      <li>Seasonal naive and MLP baselines.</li>
+      <li>Transformer encoder over historical demand windows.</li>
+      <li>Zone embedding for local behavior.</li>
+      <li>Weighted MAE loss for peak-hour demand.</li>
+    </ul>
+  </section>
+  <section>
+    <h2>KPI And Success</h2>
+    <div class="grid">
+      <p><span class="metric">MAE/RMSE</span><br>Improve forecast error over same-hour-yesterday baseline.</p>
+      <p><span class="metric">Peak Demand</span><br>Reduce under-forecasting in high-demand zone-hours.</p>
+      <p><span class="metric">Operations</span><br>Improve repositioning and reduce idle driver hours.</p>
+      <p><span class="metric">Impact</span><br>Shorter passenger wait time and more completed rides.</p>
+    </div>
+  </section>
+</body>
+</html>

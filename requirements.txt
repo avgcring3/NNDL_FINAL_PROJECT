@@ -1,0 +1,11 @@
+pandas
+numpy
+pyarrow
+scikit-learn
+torch
+matplotlib
+tqdm
+streamlit
+requests
+folium
+streamlit-folium

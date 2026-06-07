@@ -1,0 +1,34 @@
+{
+  "transformer": {
+    "mae": 3.920469591547181,
+    "rmse": 5.623527712262473,
+    "smape": 0.0406762339227165,
+    "underforecast_rate": 0.3846767757382282,
+    "peak_mae": 5.282118996554774
+  },
+  "metadata": {
+    "mode": "demo",
+    "city": "moscow",
+    "source": "C:\\Users\\kirill.yakupov.000\\Desktop\\NNDL\\data\\processed\\demo_moscow_hourly_demand.csv",
+    "lookback_hours": 48,
+    "horizon_hours": 1,
+    "future_hours": 336,
+    "epochs": 5,
+    "samples": 16704,
+    "test_samples": 2506
+  },
+  "baseline_last": {
+    "mae": 4.568236233040702,
+    "rmse": 6.580704096116043,
+    "smape": 0.04716446448443711,
+    "underforecast_rate": 0.47166799680766164,
+    "peak_mae": 6.709728867623604
+  },
+  "baseline_day_ago": {
+    "mae": 5.1739824421388665,
+    "rmse": 7.267711667442882,
+    "smape": 0.053323425733616835,
+    "underforecast_rate": 0.48403830806065445,
+    "peak_mae": 7.698564593301436
+  }
+}
