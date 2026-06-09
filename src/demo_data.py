@@ -20,23 +20,11 @@ MOSCOW_ZONES = [
 ]
 
 
-NYC_STYLE_ZONES = [
-    (161, "Midtown Center", 62.0),
-    (236, "Upper East Side North", 46.0),
-    (237, "Upper East Side South", 48.0),
-    (230, "Times Sq/Theatre District", 66.0),
-    (132, "JFK Airport", 58.0),
-    (138, "LaGuardia Airport", 52.0),
-    (79, "East Village", 40.0),
-    (68, "East Chelsea", 43.0),
-    (186, "Penn Station/Madison Sq West", 55.0),
-    (234, "Union Sq", 45.0),
-]
-
-
 def generate_hourly_demo(city: str = "moscow", days: int = 60, seed: int = 42) -> pd.DataFrame:
     rng = np.random.default_rng(seed)
-    zones = MOSCOW_ZONES if city.lower() == "moscow" else NYC_STYLE_ZONES
+    if city.lower() != "moscow":
+        raise ValueError("RideFlow NN supports Moscow demand data only.")
+    zones = MOSCOW_ZONES
     end_time = pd.Timestamp.now(tz="Europe/Moscow").tz_localize(None).floor("h") - pd.Timedelta(hours=1)
     hours = pd.date_range(end=end_time, periods=days * 24, freq="h")
     rows = []
@@ -45,8 +33,8 @@ def generate_hourly_demo(city: str = "moscow", days: int = 60, seed: int = 42) -
 
     for zone_id, zone_name, base in zones:
         airport = "Airport" in zone_name or zone_name in {"Sheremetyevo", "Vnukovo", "Domodedovo"}
-        business = zone_name in {"Moscow City", "Midtown Center", "Penn Station/Madison Sq West"}
-        center = zone_name in {"Tverskoy", "Arbat", "Times Sq/Theatre District", "Union Sq"}
+        business = zone_name == "Moscow City"
+        center = zone_name in {"Tverskoy", "Arbat"}
 
         for hour in hours:
             hour_of_day = hour.hour

@@ -13,16 +13,6 @@ REPORTS_DIR = PROJECT_ROOT / "reports"
 
 
 @dataclass(frozen=True)
-class DataConfig:
-    default_tlc_url: str = "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2026-04.parquet"
-    pickup_datetime_col: str = "tpep_pickup_datetime"
-    pickup_zone_col: str = "PULocationID"
-    lookback_hours: int = 48
-    horizon_hours: int = 1
-    top_zones: int = 20
-
-
-@dataclass(frozen=True)
 class ModelConfig:
     d_model: int = 32
     n_heads: int = 4

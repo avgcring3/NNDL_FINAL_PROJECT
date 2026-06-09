@@ -1,6 +1,5 @@
 pandas
 numpy
-pyarrow
 scikit-learn
 torch
 matplotlib

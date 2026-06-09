@@ -43,7 +43,7 @@ try {
     $pythonVersion = python --version
     Write-Host "Python: $pythonVersion"
 
-    $checkCode = "import importlib.util,sys; mods=['pandas','numpy','torch','streamlit','matplotlib','sklearn','pyarrow','requests','folium','streamlit_folium']; missing=[m for m in mods if importlib.util.find_spec(m) is None]; print('missing=' + ','.join(missing)); sys.exit(1 if missing else 0)"
+    $checkCode = "import importlib.util,sys; mods=['pandas','numpy','torch','streamlit','matplotlib','sklearn','requests','folium','streamlit_folium']; missing=[m for m in mods if importlib.util.find_spec(m) is None]; print('missing=' + ','.join(missing)); sys.exit(1 if missing else 0)"
     python -c $checkCode
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Installing missing dependencies..."
@@ -66,7 +66,7 @@ try {
 
     if ($needsTraining) {
         Write-Host "Training demo model and generating current 14-day future forecast..."
-        python -m src.train --mode demo --city moscow --epochs 5 --days 60 --lookback 48 --future-hours 336 --model transformer
+        python -m src.train --mode demo --epochs 5 --days 60 --lookback 48 --future-hours 336 --model transformer
     } else {
         Write-Host "Existing artifacts found. Skipping training."
     }

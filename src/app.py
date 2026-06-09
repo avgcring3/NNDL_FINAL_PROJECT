@@ -24,8 +24,6 @@ from ride_pricing import (
 
 ROOT = Path(__file__).resolve().parents[1]
 ARTIFACTS = ROOT / "artifacts"
-REPORTS = ROOT / "reports"
-DOCS = ROOT / "docs"
 
 
 st.set_page_config(page_title="RideFlow NN", page_icon="RF", layout="wide")
@@ -249,7 +247,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-tabs = st.tabs(["Overview", "Ride Price", "Future Forecast", "Backtest", "Operations", "Model", "Pitch"])
+tabs = st.tabs(["Overview", "Ride Price", "Future Forecast", "Backtest", "Operations"])
 
 with tabs[0]:
     st.subheader("Executive Dashboard")
@@ -480,50 +478,3 @@ with tabs[4]:
 
         st.markdown("#### Demand Plan")
         st.dataframe(next_72.head(12), width="stretch", hide_index=True)
-
-with tabs[5]:
-    st.subheader("Model And Data")
-    st.markdown(
-        f"""
-        - **Model:** {model_name}
-        - **Mode:** {metadata.get("mode")}
-        - **Source:** `{metadata.get("source", "unknown")}`
-        - **Lookback:** {metadata.get("lookback_hours")} hours
-        - **Backtest horizon:** {metadata.get("horizon_hours")} hour
-        - **Future forecast:** {metadata.get("future_hours", 0)} hours
-        - **Samples:** {metadata.get("samples")}
-        - **Latest TLC public data:** April 2026 for a June 2026 pitch, per NYC TLC page.
-        """
-    )
-    st.markdown("#### Capstone Fit")
-    st.markdown(
-        """
-        - Real operational dataset path: NYC TLC trip records.
-        - Neural network: Transformer encoder trained on hourly demand windows.
-        - Course concepts: self-attention, MLP baseline, custom weighted loss, time-series representation learning.
-        - Moscow path: same pipeline works with partner pickup logs.
-        - Price module: typed addresses, selected trip time, route, weather, traffic/time and demand forecast are combined into an estimated fare.
-        """
-    )
-
-with tabs[6]:
-    st.subheader("Pitch Assets")
-    st.markdown(
-        """
-        Use these files for presentation:
-
-        - `docs/pitch_outline.md`
-        - `docs/pitch_deck.html`
-        - `docs/moscow_data_note.md`
-        - `reports/demo_report.html`
-        """
-    )
-    report_path = REPORTS / "demo_report.html"
-    deck_path = DOCS / "pitch_deck.html"
-    col1, col2 = st.columns(2)
-    with col1:
-        if report_path.exists():
-            st.link_button("Open HTML Report", str(report_path))
-    with col2:
-        if deck_path.exists():
-            st.link_button("Open Pitch Deck", str(deck_path))

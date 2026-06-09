@@ -10,8 +10,8 @@ import torch
 from torch.utils.data import DataLoader, TensorDataset
 from tqdm import tqdm
 
-from .config import ARTIFACTS_DIR, PROCESSED_DATA_DIR, PROJECT_ROOT, REPORTS_DIR, DataConfig, ModelConfig, TrainConfig
-from .data import build_hourly_demand, load_hourly_csv, load_trip_data, make_windows, time_split
+from .config import ARTIFACTS_DIR, PROCESSED_DATA_DIR, PROJECT_ROOT, REPORTS_DIR, ModelConfig, TrainConfig
+from .data import load_hourly_csv, make_windows, time_split
 from .demo_data import generate_hourly_demo
 from .metrics import metric_bundle
 from .models import make_model, weighted_mae_loss
@@ -20,9 +20,8 @@ from .report import plot_predictions, write_html_report
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Train RideFlow NN taxi demand forecaster.")
-    parser.add_argument("--mode", choices=["demo", "csv", "tlc"], default="demo")
-    parser.add_argument("--input", default=None, help="CSV path for csv mode or parquet path/URL for tlc mode.")
-    parser.add_argument("--city", default="moscow", help="Demo city style: moscow or nyc.")
+    parser.add_argument("--mode", choices=["demo", "csv"], default="demo")
+    parser.add_argument("--input", default=None, help="Hourly Moscow demand CSV path for csv mode.")
     parser.add_argument("--model", choices=["transformer", "mlp"], default="transformer")
     parser.add_argument("--epochs", type=int, default=5)
     parser.add_argument("--days", type=int, default=45)
@@ -40,11 +39,11 @@ def set_seed(seed: int) -> None:
     torch.manual_seed(seed)
 
 
-def build_hourly(args: argparse.Namespace, data_config: DataConfig) -> tuple[pd.DataFrame, str]:
+def build_hourly(args: argparse.Namespace) -> tuple[pd.DataFrame, str]:
     PROCESSED_DATA_DIR.mkdir(parents=True, exist_ok=True)
     if args.mode == "demo":
-        hourly = generate_hourly_demo(city=args.city, days=args.days, seed=args.seed)
-        output = PROCESSED_DATA_DIR / f"demo_{args.city}_hourly_demand.csv"
+        hourly = generate_hourly_demo(city="moscow", days=args.days, seed=args.seed)
+        output = PROCESSED_DATA_DIR / "demo_moscow_hourly_demand.csv"
         hourly.to_csv(output, index=False)
         return hourly, str(output.relative_to(PROJECT_ROOT))
 
@@ -52,14 +51,6 @@ def build_hourly(args: argparse.Namespace, data_config: DataConfig) -> tuple[pd.
         if not args.input:
             raise ValueError("--input is required for csv mode")
         return load_hourly_csv(args.input), args.input
-
-    if args.mode == "tlc":
-        source = args.input or data_config.default_tlc_url
-        trips = load_trip_data(source)
-        hourly = build_hourly_demand(trips, data_config)
-        output = PROCESSED_DATA_DIR / "tlc_hourly_demand.csv"
-        hourly.to_csv(output, index=False)
-        return hourly, source
 
     raise ValueError(f"Unknown mode: {args.mode}")
 
@@ -201,12 +192,11 @@ def save_outputs(args, windows, test_idx, prediction, future_forecast, metrics, 
 def main() -> None:
     args = parse_args()
     set_seed(args.seed)
-    data_config = DataConfig(lookback_hours=args.lookback, horizon_hours=args.horizon)
     model_config = ModelConfig()
     train_config = TrainConfig(epochs=args.epochs, batch_size=args.batch_size, random_seed=args.seed)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    hourly, source = build_hourly(args, data_config)
+    hourly, source = build_hourly(args)
     windows = make_windows(hourly, args.lookback, args.horizon)
     train_idx, val_idx, test_idx = time_split(windows)
 
@@ -231,7 +221,7 @@ def main() -> None:
         args.model: metric_bundle(prediction, actual),
         "metadata": {
             "mode": args.mode,
-            "city": args.city,
+            "city": "moscow",
             "source": source,
             "lookback_hours": args.lookback,
             "horizon_hours": args.horizon,

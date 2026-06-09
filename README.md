@@ -1,6 +1,6 @@
 # RideFlow NN
 
-Neural-network capstone project for forecasting Moscow taxi demand and estimating a future trip price.
+Neural-network project for forecasting Moscow taxi demand and estimating a future trip price.
 
 ## What It Does
 
@@ -9,7 +9,7 @@ Neural-network capstone project for forecasting Moscow taxi demand and estimatin
 - builds a driving route between points A and B;
 - estimates a future trip price from tariff, distance, duration, demand, weather, traffic, date, and time;
 - displays every price coefficient and its source;
-- includes a 14-day forecast, trained model, demo data, metrics, and pitch materials.
+- includes a 14-day forecast, trained model, Moscow data, metrics, and model report.
 
 ## One-Click Start
 
@@ -30,7 +30,7 @@ The launcher:
 
 ```powershell
 python -m pip install -r requirements.txt
-python -m src.train --mode demo --city moscow --epochs 5 --days 60 --lookback 48 --future-hours 336 --model transformer
+python -m src.train --mode demo --epochs 5 --days 60 --lookback 48 --future-hours 336 --model transformer
 streamlit run src/app.py
 ```
 

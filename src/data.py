@@ -5,8 +5,6 @@ from dataclasses import dataclass
 import numpy as np
 import pandas as pd
 
-from .config import DataConfig
-
 
 @dataclass
 class WindowedDemand:
@@ -15,32 +13,6 @@ class WindowedDemand:
     zone_ids: np.ndarray
     zone_names: np.ndarray
     timestamps: np.ndarray
-
-
-def load_trip_data(path_or_url: str) -> pd.DataFrame:
-    return pd.read_parquet(path_or_url)
-
-
-def build_hourly_demand(frame: pd.DataFrame, config: DataConfig) -> pd.DataFrame:
-    data = frame[[config.pickup_datetime_col, config.pickup_zone_col]].copy()
-    data[config.pickup_datetime_col] = pd.to_datetime(data[config.pickup_datetime_col], errors="coerce")
-    data = data.dropna(subset=[config.pickup_datetime_col, config.pickup_zone_col])
-    data = data[data[config.pickup_zone_col] > 0]
-    data["hour"] = data[config.pickup_datetime_col].dt.floor("h")
-
-    top_zones = data[config.pickup_zone_col].value_counts().head(config.top_zones).index
-    data = data[data[config.pickup_zone_col].isin(top_zones)]
-
-    hourly = (
-        data.groupby([config.pickup_zone_col, "hour"])
-        .size()
-        .rename("demand")
-        .reset_index()
-        .rename(columns={config.pickup_zone_col: "zone_id"})
-        .sort_values(["zone_id", "hour"])
-    )
-    hourly["zone_name"] = hourly["zone_id"].astype(str)
-    return hourly[["zone_id", "zone_name", "hour", "demand"]]
 
 
 def load_hourly_csv(path: str) -> pd.DataFrame:
