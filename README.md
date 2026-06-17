@@ -94,12 +94,41 @@ streamlit run app/main.py
 ### Demo Questions
 
 - How does RideFlow estimate a future taxi trip price?
-- What data and external services does RideFlow use?
+- Which geocoding, routing, and weather services does RideFlow use?
 - How is taxi demand forecasting produced in RideFlow?
 - Who won the 1998 FIFA World Cup?
 
 The last question is intentionally unrelated. The expected behavior is a clear
 refusal because the RideFlow index does not contain relevant context.
+
+### Demo Answers
+
+Question: How does RideFlow estimate a future taxi trip price?
+
+Answer: RideFlow estimates a future taxi trip price from transparent components:
+tariff, route distance, route duration, selected time, predicted demand, weather,
+traffic, and time-of-day coefficients. Sources: `doc_003` score `0.235`,
+`doc_001` score `0.136`, `doc_006` score `0.084`.
+
+Question: Which geocoding, routing, and weather services does RideFlow use?
+
+Answer: RideFlow uses generated Moscow hourly demand data and external services
+for user-facing signals: ArcGIS, Photon, and Nominatim for geocoding; OSRM for
+driving routes; Open-Meteo with wttr.in fallback for weather. Sources:
+`doc_004`, `doc_005`, `doc_006`.
+
+Question: How is taxi demand forecasting produced in RideFlow?
+
+Answer: The demand forecasting pipeline predicts hourly Moscow taxi demand by
+zone from reproducible operational-style data with temporal patterns, weekly
+seasonality, holidays, weather-like effects, and zone differences. A 14-day
+forecast artifact is then used as a pricing signal. Sources: `doc_002` score
+`0.252`, `doc_001` score `0.222`, `doc_003` score `0.065`.
+
+Question: Who won the 1998 FIFA World Cup?
+
+Answer: I do not have enough relevant context in the RideFlow index to answer
+this question. Sources: none. This is the expected negative-case refusal.
 
 ### RAG Project Structure
 

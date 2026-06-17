@@ -20,7 +20,7 @@ MIN_RELEVANCE_SCORE = 0.05
 
 DEMO_QUESTIONS = [
     "How does RideFlow estimate a future taxi trip price?",
-    "What data and external services does RideFlow use?",
+    "Which geocoding, routing, and weather services does RideFlow use?",
     "How is taxi demand forecasting produced in RideFlow?",
     "Who won the 1998 FIFA World Cup?",
 ]
