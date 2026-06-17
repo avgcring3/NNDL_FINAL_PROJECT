@@ -54,3 +54,59 @@ streamlit run src/app.py
 
 This is not an official Yandex Go price quote. Exact Yandex Go tariffs and dynamic coefficients require official partner/API access. RideFlow NN provides an explainable estimate and shows the contribution of every available coefficient.
 
+## RAG Homework
+
+This repository also contains the homework MVP for
+https://github.com/MaratNotes/rag-tutorial/tree/master/homework.
+
+The implemented RAG project answers questions about RideFlow NN from a local
+12-record corpus in `data/raw/datasets.json`. It includes:
+
+- planning docs in `doc/`;
+- data description in `doc/DATA.md`;
+- ingestion, chunking, TF-IDF indexing, retrieval, demo answer, and Streamlit UI;
+- 3 relevant demo questions and 1 negative question;
+- tests for chunking, retrieval, and refusal behavior;
+- submission stub in `homework/SUBMISSION.md`.
+
+### RAG Quick Start With uv
+
+```powershell
+uv sync
+uv run python scripts/build_index.py
+uv run python scripts/check_retrieval.py
+uv run python scripts/check_generator.py
+uv run pytest tests -v
+uv run streamlit run app/main.py
+```
+
+### RAG Quick Start With pip
+
+```powershell
+python -m pip install -r requirements.txt
+python scripts/build_index.py
+python scripts/check_retrieval.py
+python scripts/check_generator.py
+python -m pytest tests -v
+streamlit run app/main.py
+```
+
+### Demo Questions
+
+- How does RideFlow estimate a future taxi trip price?
+- What data and external services does RideFlow use?
+- How is taxi demand forecasting produced in RideFlow?
+- Who won the 1998 FIFA World Cup?
+
+The last question is intentionally unrelated. The expected behavior is a clear
+refusal because the RideFlow index does not contain relevant context.
+
+### RAG Project Structure
+
+- `app/chunker.py` - paragraph-aware chunking.
+- `app/retriever.py` - TF-IDF cosine retrieval.
+- `app/generator.py` - extractive answer and refusal policy.
+- `app/main.py` - Streamlit UI with answer, sources, and retrieved fragments.
+- `scripts/ingest.py` - raw JSON to `documents.jsonl`.
+- `scripts/build_index.py` - full index build.
+- `tests/` - automated checks.

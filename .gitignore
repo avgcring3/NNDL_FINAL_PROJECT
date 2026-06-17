@@ -1,6 +1,7 @@
 __pycache__/
 *.py[cod]
 .pytest_cache/
+.pytest-tmp/
 .mypy_cache/
 .ruff_cache/
 .venv/
@@ -10,4 +11,6 @@ venv/
 !.env.example
 dashboard_url.txt
 .streamlit/secrets.toml
-
+data/index/
+data/processed/documents.jsonl
+data/processed/chunks.jsonl

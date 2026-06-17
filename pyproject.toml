@@ -1,0 +1,23 @@
+[project]
+name = "rideflow-rag-homework"
+version = "0.1.0"
+description = "Educational RAG pipeline for the RideFlow NN corpus."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "joblib>=1.3",
+    "numpy>=1.24",
+    "scikit-learn>=1.3",
+    "scipy>=1.10",
+    "streamlit>=1.32",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "--basetemp=.pytest-tmp"

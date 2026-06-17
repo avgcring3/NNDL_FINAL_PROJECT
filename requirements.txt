@@ -1,6 +1,8 @@
 pandas
 numpy
 scikit-learn
+scipy
+joblib
 torch
 matplotlib
 tqdm
@@ -8,3 +10,4 @@ streamlit
 requests
 folium
 streamlit-folium
+pytest

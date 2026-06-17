@@ -1,0 +1,66 @@
+{
+  "source": "Local RideFlow NN project materials",
+  "description": "Small educational text corpus assembled from the RideFlow NN project README and implementation notes. It is used for the homework MVP because it is local, reproducible, and enough to test the full RAG pipeline.",
+  "datasets": [
+    {
+      "id": "doc_001",
+      "name": "RideFlow NN overview",
+      "text": "RideFlow NN is a neural-network project for forecasting Moscow taxi demand and estimating a future trip price. The system combines a demand forecast, route distance, expected duration, weather, traffic assumptions, tariff settings, date, and time. The goal is not to reproduce an official ride-hailing quote, but to produce an explainable estimate with visible coefficients and source signals.\n\nThe project includes a dashboard, generated Moscow hourly demand data, trained model artifacts, metrics, forecasts, and a model report. A user can select pickup and destination points, choose a future time, inspect the route, and review every contribution to the final price."
+    },
+    {
+      "id": "doc_002",
+      "name": "Demand forecasting",
+      "text": "The demand forecasting part predicts hourly taxi demand by Moscow zone. The demo pipeline trains a Transformer-style model on reproducible operational-style data with temporal patterns, weekly seasonality, holidays, weather-like effects, and zone-level demand differences.\n\nThe forecast is saved as a 14-day horizon artifact and is used later as one of the pricing signals. High predicted demand can increase the estimated trip price, while low predicted demand can keep the demand coefficient close to baseline."
+    },
+    {
+      "id": "doc_003",
+      "name": "Trip price estimation",
+      "text": "RideFlow estimates a future taxi trip price from several transparent components. The base calculation uses tariff, route distance, route duration, selected time, demand coefficient, weather coefficient, traffic coefficient, and time-of-day coefficient.\n\nThe dashboard displays each coefficient and explains where it came from. This makes the price estimate auditable: a user can see whether distance, duration, predicted demand, weather, or traffic contributed most to the final value."
+    },
+    {
+      "id": "doc_004",
+      "name": "Geocoding",
+      "text": "The geocoding layer resolves Moscow places, streets, metro stations, and house addresses into coordinates. RideFlow uses several services as fallbacks: ArcGIS, Photon, and Nominatim. The fallback approach makes the demo more resilient when a provider misses an address or temporarily fails.\n\nThe geocoder is designed for user-facing search. It accepts readable addresses and place names, normalizes the result, and passes coordinates to the route builder."
+    },
+    {
+      "id": "doc_005",
+      "name": "Routing",
+      "text": "The routing layer builds a driving route between points A and B. The project uses OSRM to estimate route geometry, distance, and duration. These route values are central to the pricing model because longer distance and longer expected travel time directly increase the estimated trip cost.\n\nThe dashboard can show the route on a map. When routing is unavailable, the application should fail clearly instead of inventing a distance."
+    },
+    {
+      "id": "doc_006",
+      "name": "Weather signals",
+      "text": "RideFlow uses weather as one of the pricing signals. The main weather source is Open-Meteo, and wttr.in is used as a fallback. Weather can influence the coefficient because bad conditions may change travel demand or expected trip comfort.\n\nThe weather contribution is not an official tariff rule. It is an explainable demo feature that shows how an external signal can be integrated into a future price estimate."
+    },
+    {
+      "id": "doc_007",
+      "name": "Traffic assumptions",
+      "text": "Traffic is represented as a coefficient in the pricing calculation. Heavy traffic can increase expected duration and may increase the total estimate. The system keeps this contribution visible so the user can inspect whether the price changed because of route length, demand, weather, traffic, or time.\n\nThe MVP should prefer transparent rules over hidden business logic. This is important because exact commercial ride-hailing coefficients require official partner or API access."
+    },
+    {
+      "id": "doc_008",
+      "name": "Dashboard workflow",
+      "text": "The Streamlit dashboard is the main user interface. It lets the user enter pickup and destination points, choose a future date and time, run route and price estimation, and inspect forecast and coefficient details.\n\nFor the RAG homework, the Streamlit interface asks a question, retrieves the most relevant fragments, generates an extractive answer, and displays sources with doc_id, score, and text. This mirrors the required RAG workflow while keeping the UI simple."
+    },
+    {
+      "id": "doc_009",
+      "name": "Artifacts",
+      "text": "RideFlow stores generated artifacts in the artifacts directory. Typical files include the trained model, training curve, predictions, future forecast, and metrics. Reports are stored separately and can include an HTML demo report and forecast chart.\n\nThe RAG homework stores its own generated artifacts in data/index. The TF-IDF vectorizer, sparse matrix, and indexed chunks can be rebuilt from data/raw/datasets.json by running scripts/build_index.py."
+    },
+    {
+      "id": "doc_010",
+      "name": "Limitations",
+      "text": "RideFlow NN is not an official Yandex Go price quote. Exact ride-hailing tariffs, surge rules, dynamic coefficients, and partner-only business logic require official access. The project should therefore present the result as an explainable estimate, not as a guaranteed commercial price.\n\nThe same principle applies to the RAG answer generator. If retrieved context is not relevant enough, the system must refuse instead of fabricating an answer."
+    },
+    {
+      "id": "doc_011",
+      "name": "RAG index design",
+      "text": "The homework RAG index uses TF-IDF and cosine similarity. Documents are loaded from datasets.json, normalized into documents.jsonl, split into paragraph-aware chunks, vectorized, and saved as a sparse matrix. Retrieval returns top-k chunks with text, doc_id, name, source_file, chunk_id, and score.\n\nThis design is intentionally small and reproducible. It does not call an external LLM, does not require a vector database, and can run on a clean machine after installing Python dependencies."
+    },
+    {
+      "id": "doc_012",
+      "name": "RAG answer policy",
+      "text": "The answer generator must answer only from retrieved context. It extracts the most relevant sentences from top chunks and attaches source identifiers. A minimum score threshold protects against unrelated questions.\n\nFor negative questions, such as a question about a football match or an unrelated historical topic, the generator returns a refusal message saying that the RideFlow index does not contain enough relevant context."
+    }
+  ]
+}
