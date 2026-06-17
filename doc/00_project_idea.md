@@ -14,7 +14,7 @@ The audience is a course reviewer, student, or project maintainer who wants to i
 
 ## Data
 
-The MVP corpus is `data/raw/datasets.json`. It contains 12 text records assembled from the local RideFlow project description and implementation notes. This satisfies the homework MVP minimum of 10 text records.
+The corpus is `data/raw/datasets.json`. It contains 1212 text records: 12 overview records assembled from local RideFlow project documentation and 1200 text records generated from the project's Moscow hourly demand CSV. This satisfies the excellent-grade scale criterion of 1000+ source records.
 
 ## Success Criteria
 

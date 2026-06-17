@@ -58,11 +58,16 @@ def generate_answer(
     retrieved_chunks: list[dict],
     min_score: float = MIN_RELEVANCE_SCORE,
 ) -> dict:
-    relevant = [item for item in retrieved_chunks if item["score"] >= min_score]
+    question_tokens = _tokens(question)
+    relevant = [
+        item
+        for item in retrieved_chunks
+        if item["score"] >= min_score
+        and len(question_tokens & _tokens(item["text"])) >= 1
+    ]
     if not relevant:
         return {"answer": REFUSAL_MESSAGE, "sources": []}
 
-    question_tokens = _tokens(question)
     answer_parts = []
     for item in relevant[:3]:
         sentence = _best_sentence(question_tokens, item["text"])

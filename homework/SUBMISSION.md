@@ -12,8 +12,8 @@
 
 Implemented an educational RAG pipeline for the RideFlow NN project corpus:
 
-- 12-record local dataset in `data/raw/datasets.json`;
+- 1212-record local dataset in `data/raw/datasets.json`;
 - ingest, chunking, TF-IDF index, retrieval, extractive answer, Streamlit UI;
 - refusal policy for unrelated questions;
 - planning docs in `doc/`;
-- tests for chunking, retrieval, and generator behavior.
+- 9 passing tests for dataset scale, chunking, retrieval, and generator behavior.

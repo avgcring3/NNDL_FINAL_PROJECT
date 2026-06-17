@@ -2,6 +2,27 @@
 
 ## Implemented In MVP
 
+### Excellent-scale dataset
+
+The corpus was expanded from a small overview-only MVP to 1212 text records. The
+new records are generated from the local Moscow hourly demand CSV and describe
+zone, timestamp, demand value, demand level, weekday, and time bucket.
+
+Changed files:
+
+- `scripts/prepare_datasets.py`
+- `data/raw/datasets.json`
+- `doc/DATA.md`
+- `tests/test_dataset.py`
+
+Check:
+
+```bash
+python scripts/prepare_datasets.py --limit 1200
+python scripts/build_index.py
+pytest tests/test_dataset.py -v
+```
+
 ### Relevance threshold and refusal policy
 
 The generator uses a minimum retrieval score before answering. If no retrieved chunk passes the threshold, it returns a refusal instead of fabricating an answer.

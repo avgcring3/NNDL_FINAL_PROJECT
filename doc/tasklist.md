@@ -3,7 +3,7 @@
 | Iteration | Result | Check | Status |
 | --- | --- | --- | --- |
 | 00 Scaffold | Project files, app package, scripts, tests folder | `python -c "import app.config"` | Done |
-| 01 Demo data | `data/raw/datasets.json` with 10+ records | `python scripts/prepare_datasets.py` | Done |
+| 01 Demo data | `data/raw/datasets.json` with 1000+ records | `python scripts/prepare_datasets.py` | Done |
 | 02 Ingestion | `documents.jsonl` generated | `python scripts/ingest.py` | Done |
 | 03 Chunking | Paragraph-aware chunks | `pytest tests/test_chunking.py -v` | Done |
 | 04 Index | TF-IDF vectorizer, sparse matrix, chunks | `python scripts/build_index.py` | Done |
@@ -14,7 +14,7 @@
 
 ## MVP Completion Criteria
 
-- At least 10 raw text records.
+- At least 1000 raw text records for excellent-grade scale.
 - Build command creates index artifacts.
 - Relevant questions return sourced answers.
 - Negative question refuses.

@@ -60,19 +60,20 @@ This repository also contains the homework MVP for
 https://github.com/MaratNotes/rag-tutorial/tree/master/homework.
 
 The implemented RAG project answers questions about RideFlow NN from a local
-12-record corpus in `data/raw/datasets.json`. It includes:
+1212-record corpus in `data/raw/datasets.json`. It includes:
 
 - planning docs in `doc/`;
 - data description in `doc/DATA.md`;
 - ingestion, chunking, TF-IDF indexing, retrieval, demo answer, and Streamlit UI;
 - 3 relevant demo questions and 1 negative question;
-- tests for chunking, retrieval, and refusal behavior;
+- tests for dataset scale, chunking, retrieval, and refusal behavior;
 - submission stub in `homework/SUBMISSION.md`.
 
 ### RAG Quick Start With uv
 
 ```powershell
 uv sync
+uv run python scripts/prepare_datasets.py
 uv run python scripts/build_index.py
 uv run python scripts/check_retrieval.py
 uv run python scripts/check_generator.py
@@ -84,6 +85,7 @@ uv run streamlit run app/main.py
 
 ```powershell
 python -m pip install -r requirements.txt
+python scripts/prepare_datasets.py
 python scripts/build_index.py
 python scripts/check_retrieval.py
 python scripts/check_generator.py
@@ -107,8 +109,8 @@ Question: How does RideFlow estimate a future taxi trip price?
 
 Answer: RideFlow estimates a future taxi trip price from transparent components:
 tariff, route distance, route duration, selected time, predicted demand, weather,
-traffic, and time-of-day coefficients. Sources: `doc_003` score `0.235`,
-`doc_001` score `0.136`, `doc_006` score `0.084`.
+traffic, and time-of-day coefficients. Example sources: `doc_003`, `doc_001`,
+`doc_006`.
 
 Question: Which geocoding, routing, and weather services does RideFlow use?
 
@@ -122,13 +124,26 @@ Question: How is taxi demand forecasting produced in RideFlow?
 Answer: The demand forecasting pipeline predicts hourly Moscow taxi demand by
 zone from reproducible operational-style data with temporal patterns, weekly
 seasonality, holidays, weather-like effects, and zone differences. A 14-day
-forecast artifact is then used as a pricing signal. Sources: `doc_002` score
-`0.252`, `doc_001` score `0.222`, `doc_003` score `0.065`.
+forecast artifact is then used as a pricing signal. Example sources: `doc_002`,
+`doc_001`, `doc_003`.
 
 Question: Who won the 1998 FIFA World Cup?
 
 Answer: I do not have enough relevant context in the RideFlow index to answer
 this question. Sources: none. This is the expected negative-case refusal.
+
+### Latest Validation
+
+```text
+python scripts/prepare_datasets.py --limit 1200
+Dataset is ready: 1212 records (12 overview + 1200 demand)
+
+python scripts/build_index.py
+Indexed matrix: 1212 chunks x 2013 features
+
+python -m pytest tests -v
+9 passed
+```
 
 ### RAG Project Structure
 
@@ -137,5 +152,7 @@ this question. Sources: none. This is the expected negative-case refusal.
 - `app/generator.py` - extractive answer and refusal policy.
 - `app/main.py` - Streamlit UI with answer, sources, and retrieved fragments.
 - `scripts/ingest.py` - raw JSON to `documents.jsonl`.
+- `scripts/prepare_datasets.py` - rebuilds 1212 text records from RideFlow
+  overview docs and generated Moscow hourly demand data.
 - `scripts/build_index.py` - full index build.
 - `tests/` - automated checks.
